@@ -3,7 +3,7 @@ import MainMenu from './common/MainMenu'
 import EstadisticasVentas from './components/EstadisticasVentas'
 import NotaVenta from './components/NotaVenta'
 import Recaudado from './components/Recaudado'
-import Usuarios from './components/Usuarios'
+import Movimientos from './components/Movimientos'
 import './App.css'
 
 function Home() {
@@ -28,7 +28,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/nota-venta" element={<NotaVenta />} />
       <Route path="/recaudado" element={<Recaudado />} />
-      <Route path="/usuarios" element={<Usuarios />} />
+      <Route path="/movimientos" element={<Movimientos />} />
       <Route path="/estadisticas" element={<EstadisticasVentas />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

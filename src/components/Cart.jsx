@@ -6,7 +6,14 @@ const currencyFormatter = new Intl.NumberFormat('es-AR', {
   maximumFractionDigits: 0,
 })
 
-function Cart({ items, onUpdateQuantity, onRemove, onClear }) {
+function Cart({
+  items,
+  onUpdateQuantity,
+  onRemove,
+  onClear,
+  onInvoice,
+  canInvoice,
+}) {
   const totalItems = items.reduce((total, item) => total + item.quantity, 0)
   const totalPrice = items.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -59,11 +66,23 @@ function Cart({ items, onUpdateQuantity, onRemove, onClear }) {
           </div>
 
           <footer className="cart__footer">
-            <span>Total</span>
-            <strong>{currencyFormatter.format(totalPrice)}</strong>
+            <div className="cart__total">
+              <span>Total</span>
+              <strong>{currencyFormatter.format(totalPrice)}</strong>
+            </div>
+            <button
+              className="invoice-button"
+              type="button"
+              onClick={onInvoice}
+              disabled={!canInvoice}
+              title={canInvoice ? 'Registrar venta' : 'Primero tenés que abrir la caja'}
+            >
+              Facturar
+            </button>
           </footer>
         </>
       )}
+
     </section>
   )
 }

@@ -1,0 +1,72 @@
+.notice-backdrop {
+  position: fixed;
+  z-index: 120;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(6, 10, 18, 0.78);
+  backdrop-filter: blur(5px);
+}
+
+.notice-modal {
+  width: min(100%, 420px);
+  padding: 28px;
+  text-align: center;
+  background: #1a2332;
+  border: 1px solid #384a63;
+  border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+}
+
+.notice-modal__icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 17px;
+  color: #b9d0ef;
+  font-family: Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  background: #263b59;
+  border: 1px solid #3b577d;
+  border-radius: 50%;
+}
+
+.notice-modal h2 {
+  margin: 0;
+  color: #e5eaf2;
+  font-size: 1.35rem;
+}
+
+.notice-modal p {
+  margin: 10px auto 24px;
+  color: #96a4b7;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.notice-modal button {
+  min-width: 120px;
+  min-height: 42px;
+  padding: 0 18px;
+  color: #e4ebf5;
+  font-weight: 750;
+  background: #38577f;
+  border: 1px solid #4e70a0;
+  border-radius: 9px;
+  cursor: pointer;
+}
+
+.notice-modal button:hover { background: #456891; }
+
+.notice-modal button:focus-visible {
+  outline: 3px solid rgba(125, 157, 204, 0.45);
+  outline-offset: 3px;
+}
+
+@media (max-width: 440px) {
+  .notice-modal { padding: 23px; }
+  .notice-modal button { width: 100%; }
+}

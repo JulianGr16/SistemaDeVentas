@@ -1,0 +1,95 @@
+.movements-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.movements-heading h2 {
+  margin: 0;
+  color: #e2e8f0;
+  font-size: 1.2rem;
+}
+
+.movements-heading p {
+  margin: 6px 0 0;
+  color: #8291a5;
+  font-size: 0.85rem;
+}
+
+.movements-heading > span {
+  flex: 0 0 auto;
+  padding: 7px 11px;
+  color: #beaee0;
+  font-size: 0.74rem;
+  font-weight: 700;
+  background: #39304f;
+  border-radius: 999px;
+}
+
+.movements-empty {
+  display: flex;
+  min-height: 250px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #8190a3;
+  text-align: center;
+}
+
+.movements-empty > span {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 14px;
+  color: #a99bca;
+  font-size: 1.5rem;
+  background: #302a43;
+  border-radius: 14px;
+}
+
+.movements-empty p { margin: 0 0 5px; color: #b8c3d1; font-weight: 650; }
+.movements-empty small { color: #748297; }
+
+.movements-list {
+  overflow: hidden;
+  background: #151e2b;
+  border: 1px solid #303d50;
+  border-radius: 14px;
+}
+
+.movement-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 15px;
+  align-items: center;
+  padding: 17px 20px;
+  border-bottom: 1px solid #293547;
+}
+
+.movement-item:last-child { border-bottom: 0; }
+
+.movement-item__icon {
+  display: grid;
+  place-items: center;
+  width: 39px;
+  height: 39px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  border-radius: 11px;
+}
+
+.movement-item__icon--opening { color: #9ccdb8; background: #234039; }
+.movement-item__icon--closing { color: #ddb0b0; background: #492e33; }
+.movement-item__info { display: flex; min-width: 0; flex-direction: column; gap: 4px; }
+.movement-item__info strong { color: #dce4ee; font-size: 0.9rem; }
+.movement-item__info span { overflow: hidden; color: #7f8da1; font-size: 0.78rem; text-overflow: ellipsis; white-space: nowrap; }
+.movement-item time { color: #aab7c8; font-size: 0.86rem; font-weight: 700; }
+
+@media (max-width: 520px) {
+  .movements-heading { flex-direction: column; }
+  .movement-item { padding: 15px; }
+  .movement-item time { grid-column: 2; }
+}

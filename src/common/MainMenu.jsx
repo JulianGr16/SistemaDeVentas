@@ -19,11 +19,11 @@ const menuItems = [
     color: 'green',
   },
   {
-    id: 'usuarios',
-    path: '/usuarios',
-    title: 'Usuarios',
-    description: 'Administrá las personas que usan el sistema.',
-    icon: 'US',
+    id: 'movimientos',
+    path: '/movimientos',
+    title: 'Movimientos',
+    description: 'Revisá cada apertura y cierre de caja.',
+    icon: 'MV',
     color: 'violet',
   },
   {
