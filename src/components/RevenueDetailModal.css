@@ -1,0 +1,31 @@
+.revenue-modal-backdrop { position: fixed; z-index: 120; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(6, 10, 18, .8); backdrop-filter: blur(5px); }
+.revenue-modal { width: min(100%, 720px); max-height: min(88vh, 850px); overflow-y: auto; background: #172130; border: 1px solid #3a485d; border-radius: 18px; box-shadow: 0 24px 70px rgba(0, 0, 0, .48); }
+.revenue-modal__header { display: flex; justify-content: space-between; gap: 20px; padding: 24px 26px; border-bottom: 1px solid #2e3a4c; }
+.revenue-modal__header p { margin: 0 0 5px; color: #8ebda8; font-size: .7rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.revenue-modal__header h2 { margin: 0; color: #e4eaf2; font-size: 1.35rem; text-transform: capitalize; }
+.revenue-modal__header span { display: block; margin-top: 7px; color: #8291a5; font-size: .8rem; }
+.revenue-modal__header button { flex: 0 0 auto; width: 34px; height: 34px; color: #94a2b5; font-size: 1.35rem; background: #222e3f; border: 0; border-radius: 9px; cursor: pointer; }
+.revenue-modal__summary { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 10px; padding: 20px 26px; }
+.revenue-modal__summary > div { display: flex; flex-direction: column; gap: 5px; padding: 14px; background: #1d2939; border: 1px solid #303e52; border-radius: 11px; }
+.revenue-modal__summary span { color: #7f8da1; font-size: .72rem; }
+.revenue-modal__summary strong { color: #dce6e1; font-size: 1.15rem; }
+.revenue-modal__section { padding: 0 26px 22px; }
+.revenue-modal__section h3 { margin: 0 0 12px; color: #bdc8d6; font-size: .85rem; letter-spacing: .03em; text-transform: uppercase; }
+.revenue-product-list, .invoice-list { overflow: hidden; background: #121b28; border: 1px solid #2b384b; border-radius: 11px; }
+.revenue-product-list > div { display: grid; grid-template-columns: 1fr 110px 125px; gap: 12px; padding: 11px 14px; border-bottom: 1px solid #273345; }
+.revenue-product-list > div:last-child { border-bottom: 0; }
+.revenue-product-list strong { color: #ccd6e2; font-size: .82rem; }
+.revenue-product-list span { color: #91a0b3; font-size: .8rem; text-align: right; }
+.revenue-modal__empty { margin: 0; padding: 18px; color: #78879a; font-size: .82rem; text-align: center; background: #121b28; border: 1px solid #2b384b; border-radius: 11px; }
+.invoice-detail { padding: 14px; border-bottom: 1px solid #2b384b; }
+.invoice-detail:last-child { border-bottom: 0; }
+.invoice-detail header { display: flex; justify-content: space-between; gap: 15px; align-items: center; }
+.invoice-detail header > div { display: flex; gap: 9px; align-items: center; }
+.invoice-detail header strong { color: #d8e1eb; font-size: .84rem; }
+.invoice-detail time { color: #758499; font-size: .74rem; }
+.invoice-detail ul { display: flex; flex-direction: column; gap: 6px; margin: 11px 0 0; padding: 10px 0 0; list-style: none; border-top: 1px solid #253143; }
+.invoice-detail li { display: flex; justify-content: space-between; gap: 15px; color: #8e9daf; font-size: .78rem; }
+.revenue-modal__footer { display: flex; justify-content: flex-end; padding: 18px 26px; background: #141d2a; border-top: 1px solid #2e3a4c; }
+.revenue-modal__footer button { min-width: 100px; min-height: 40px; color: #dce6f3; font-weight: 750; background: #38577f; border: 1px solid #4e70a0; border-radius: 9px; cursor: pointer; }
+.revenue-modal button:focus-visible { outline: 3px solid rgba(125, 157, 204, .45); outline-offset: 2px; }
+@media (max-width: 560px) { .revenue-modal { max-height: 92vh; } .revenue-modal__header, .revenue-modal__section, .revenue-modal__footer { padding-inline: 18px; } .revenue-modal__summary { grid-template-columns: 1fr 1fr; padding-inline: 18px; } .revenue-modal__summary > div:first-child { grid-column: 1 / -1; } .revenue-product-list > div { grid-template-columns: 1fr 80px; } .revenue-product-list > div span:last-child { grid-column: 2; } }

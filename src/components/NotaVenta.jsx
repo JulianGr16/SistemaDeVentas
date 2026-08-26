@@ -46,7 +46,7 @@ function NotaVenta() {
     localStorage.setItem(REGISTER_STORAGE_KEY, JSON.stringify(newRegister))
   }
 
-  const saveMovement = (type, date) => {
+  const saveMovement = (type, date, cashSessionId) => {
     try {
       const savedMovements = JSON.parse(
         localStorage.getItem(MOVEMENTS_STORAGE_KEY) || '[]',
@@ -55,6 +55,7 @@ function NotaVenta() {
         id: `${date}-${type}`,
         type,
         date,
+        cashSessionId,
       }
 
       localStorage.setItem(
@@ -62,20 +63,21 @@ function NotaVenta() {
         JSON.stringify([...savedMovements, newMovement]),
       )
     } catch {
-      const newMovement = { id: `${date}-${type}`, type, date }
+      const newMovement = { id: `${date}-${type}`, type, date, cashSessionId }
       localStorage.setItem(MOVEMENTS_STORAGE_KEY, JSON.stringify([newMovement]))
     }
   }
 
   const openRegister = () => {
     const openedAt = new Date().toISOString()
+    const sessionId = `caja-${Date.now()}`
     saveRegister({
       isOpen: true,
-      sessionId: `caja-${Date.now()}`,
+      sessionId,
       openedAt,
       closedAt: null,
     })
-    saveMovement('apertura', openedAt)
+    saveMovement('apertura', openedAt, sessionId)
   }
 
   const closeRegister = () => {
@@ -85,7 +87,7 @@ function NotaVenta() {
       isOpen: false,
       closedAt,
     })
-    saveMovement('cierre', closedAt)
+    saveMovement('cierre', closedAt, register.sessionId || register.openedAt)
   }
 
   const addToCart = (product) => {
