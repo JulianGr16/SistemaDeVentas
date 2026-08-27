@@ -70,6 +70,11 @@
   font-size: 1.05rem;
 }
 
+.product-card .product-card__pending-price {
+  color: #c2a77f;
+  font-size: 0.84rem;
+}
+
 .product-card__action {
   margin-top: auto;
   padding: 18px 0 0;
@@ -84,3 +89,8 @@
 }
 
 .product-card__action:hover { color: #d5e2f3; }
+
+.product-card__action:disabled {
+  color: #667386;
+  cursor: not-allowed;
+}

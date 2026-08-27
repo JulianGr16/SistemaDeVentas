@@ -7,6 +7,8 @@ const currencyFormatter = new Intl.NumberFormat('es-AR', {
 })
 
 function ProductCard({ product, onAdd, onEdit }) {
+  const hasPrice = product.price > 0
+
   return (
     <article
       className="product-card"
@@ -24,14 +26,17 @@ function ProductCard({ product, onAdd, onEdit }) {
         {product.icon}
       </span>
       <span className="product-card__name">{product.name}</span>
-      <strong>{currencyFormatter.format(product.price)}</strong>
+      <strong className={!hasPrice ? 'product-card__pending-price' : ''}>
+        {hasPrice ? currencyFormatter.format(product.price) : 'Precio pendiente'}
+      </strong>
       <button
         className="product-card__action"
         type="button"
         onClick={() => onAdd(product)}
+        disabled={!hasPrice}
         aria-label={`Agregar ${product.name} al carrito`}
       >
-        + Agregar
+        {hasPrice ? '+ Agregar' : 'Definir precio para agregar'}
       </button>
     </article>
   )

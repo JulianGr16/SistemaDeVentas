@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ProductCategoryMenu from '../common/ProductCategoryMenu'
 import CashRegister from './CashRegister'
 import Cart from './Cart'
 import ConfirmModal from './ConfirmModal'
@@ -11,6 +12,7 @@ import './NotaVenta.css'
 const REGISTER_STORAGE_KEY = 'sistema-ventas-caja'
 const MOVEMENTS_STORAGE_KEY = 'sistema-ventas-movimientos'
 const SALES_STORAGE_KEY = 'sistema-ventas-facturaciones'
+const PRODUCT_PRICES_STORAGE_KEY = 'sistema-ventas-precios-productos'
 
 const getSavedRegister = () => {
   try {
@@ -24,22 +26,72 @@ const getSavedRegister = () => {
 }
 
 const initialProducts = [
-  { id: 1, name: 'Hamburguesa', price: 8000, icon: '🍔' },
-  { id: 2, name: 'Pancho', price: 4500, icon: '🌭' },
-  { id: 3, name: 'Pepsi', price: 3000, icon: '🥤' },
-  { id: 4, name: 'Fernet', price: 7000, icon: '🥃' },
-  { id: 5, name: 'Chocotorta', price: 3500, icon: '🍰' },
-  { id: 6, name: 'Postre Oreo', price: 4000, icon: '🍪' },
+  { id: 'molida-chica-comun', category: 'sandwich-molida', name: 'Milanesa chica de molida común', price: 0, icon: '🥪' },
+  { id: 'molida-chica-especial', category: 'sandwich-molida', name: 'Milanesa chica de molida especial', price: 0, icon: '🥪' },
+  { id: 'molida-gigante-comun', category: 'sandwich-molida', name: 'Milanesa gigante de molida común', price: 0, icon: '🥪' },
+  { id: 'molida-gigante-especial', category: 'sandwich-molida', name: 'Milanesa gigante de molida especial', price: 0, icon: '🥪' },
+  { id: 'carne-chica-comun', category: 'sandwich-carne', name: 'Milanesa chica de carne común', price: 0, icon: '🥩' },
+  { id: 'carne-chica-especial', category: 'sandwich-carne', name: 'Milanesa chica de carne especial', price: 0, icon: '🥩' },
+  { id: 'carne-gigante-comun', category: 'sandwich-carne', name: 'Milanesa gigante de carne común', price: 0, icon: '🥩' },
+  { id: 'carne-gigante-especial', category: 'sandwich-carne', name: 'Milanesa gigante de carne especial', price: 0, icon: '🥩' },
+  { id: 'hamburguesa-americana', category: 'hamburguesas', name: 'Hamburguesa americana', price: 0, icon: '🍔' },
+  { id: 'hamburguesa-sanguchera', category: 'hamburguesas', name: 'Hamburguesa sanguchera especial', price: 0, icon: '🍔' },
+  { id: 'pancho', category: 'panchos', name: 'Pancho', price: 0, icon: '🌭' },
+  { id: 'super-pancho', category: 'panchos', name: 'Súper pancho', price: 0, icon: '🌭' },
+  { id: 'cerveza-norte-lata', category: 'bebidas', name: 'Cerveza Norte en lata', price: 0, icon: '🍺' },
+  { id: 'fernet-pepsi-promo', category: 'bebidas', name: 'Fernet + Pepsi (promo)', price: 0, icon: '🥃' },
+  { id: 'vaso-fernet', category: 'bebidas', name: 'Vaso de fernet', price: 0, icon: '🥃' },
+  { id: 'pepsi-3l', category: 'bebidas', name: 'Pepsi 3 Lt', price: 0, icon: '🥤' },
+  { id: 'pepsi-2l', category: 'bebidas', name: 'Pepsi 2 Lt', price: 0, icon: '🥤' },
+  { id: 'jugo-fresh', category: 'bebidas', name: 'Jugo Fresh', price: 0, icon: '🧃' },
+  { id: 'chocotorta', category: 'postres', name: 'Chocotorta', price: 3500, icon: '🍰' },
+  { id: 'postre-oreo', category: 'postres', name: 'Postre Oreo', price: 4000, icon: '🍪' },
+  { id: 'donas', category: 'postres', name: 'Donas', price: 0, icon: '🍩' },
+  { id: 'cono-papa-chico', category: 'conos-papa', name: 'Cono de papa chico', price: 0, icon: '🍟' },
+  { id: 'cono-papa-grande', category: 'conos-papa', name: 'Cono de papa grande', price: 0, icon: '🍟' },
+  { id: 'bombas-papa', category: 'conos-papa', name: 'Bombas de papa', price: 0, icon: '🥔' },
+  { id: 'empanadas', category: 'conos-papa', name: 'Empanadas', price: 0, icon: '🥟' },
+]
+
+const getSavedProducts = () => {
+  try {
+    const savedPrices = JSON.parse(
+      localStorage.getItem(PRODUCT_PRICES_STORAGE_KEY) || '{}',
+    )
+
+    return initialProducts.map((product) => {
+      const savedPrice = Number(savedPrices[product.id])
+      return Number.isFinite(savedPrice) && savedPrice > 0
+        ? { ...product, price: savedPrice }
+        : product
+    })
+  } catch {
+    return initialProducts
+  }
+}
+
+const productCategories = [
+  { id: 'sandwich-molida', name: 'Sándwich de molida', shortName: 'Molida' },
+  { id: 'sandwich-carne', name: 'Sándwich de carne', shortName: 'Carne' },
+  { id: 'hamburguesas', name: 'Hamburguesas', shortName: 'Hamburguesas' },
+  { id: 'panchos', name: 'Panchos', shortName: 'Panchos' },
+  { id: 'bebidas', name: 'Bebidas', shortName: 'Bebidas' },
+  { id: 'postres', name: 'Postres', shortName: 'Postres' },
+  { id: 'conos-papa', name: 'Conos de papa', shortName: 'Conos' },
 ]
 
 function NotaVenta() {
-  const [products, setProducts] = useState(initialProducts)
+  const [products, setProducts] = useState(getSavedProducts)
+  const [selectedCategory, setSelectedCategory] = useState(productCategories[0])
   const [cart, setCart] = useState([])
   const [register, setRegister] = useState(getSavedRegister)
   const [productToEdit, setProductToEdit] = useState(null)
   const [showClosedRegisterNotice, setShowClosedRegisterNotice] = useState(false)
   const [showInvoiceConfirmation, setShowInvoiceConfirmation] = useState(false)
   const [showInvoiceSuccess, setShowInvoiceSuccess] = useState(false)
+  const visibleProducts = products.filter(
+    (product) => product.category === selectedCategory.id,
+  )
 
   const saveRegister = (newRegister) => {
     setRegister(newRegister)
@@ -135,11 +187,20 @@ function NotaVenta() {
   }
 
   const updatePrice = (productId, newPrice) => {
-    setProducts((currentProducts) =>
-      currentProducts.map((product) =>
+    setProducts((currentProducts) => {
+      const updatedProducts = currentProducts.map((product) =>
         product.id === productId ? { ...product, price: newPrice } : product,
-      ),
-    )
+      )
+      const pricesToSave = Object.fromEntries(
+        updatedProducts.map((product) => [product.id, product.price]),
+      )
+
+      localStorage.setItem(
+        PRODUCT_PRICES_STORAGE_KEY,
+        JSON.stringify(pricesToSave),
+      )
+      return updatedProducts
+    })
     setCart((currentCart) =>
       currentCart.map((item) =>
         item.id === productId ? { ...item, price: newPrice } : item,
@@ -208,24 +269,36 @@ function NotaVenta() {
           onClose={closeRegister}
         />
 
+        <ProductCategoryMenu
+          categories={productCategories}
+          selectedCategory={selectedCategory}
+          onSelect={setSelectedCategory}
+        />
+
         <div className="products-heading">
           <div>
-            <h2>Productos</h2>
+            <h2>Productos · {selectedCategory.name}</h2>
             <p>Seleccioná un producto para agregarlo al carrito.</p>
           </div>
-          <span>{products.length} disponibles</span>
+          <span>{visibleProducts.length} disponibles</span>
         </div>
 
-        <div className="products-grid">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAdd={addToCart}
-              onEdit={setProductToEdit}
-            />
-          ))}
-        </div>
+        {visibleProducts.length > 0 ? (
+          <div className="products-grid">
+            {visibleProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAdd={addToCart}
+                onEdit={setProductToEdit}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="products-empty">
+            <p>Todavía no cargamos productos en esta categoría.</p>
+          </div>
+        )}
 
         <Cart
           items={cart}
