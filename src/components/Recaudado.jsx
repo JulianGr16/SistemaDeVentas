@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import DeleteHistoryModal from './DeleteHistoryModal'
 import RevenueDetailModal from './RevenueDetailModal'
 import SectionPage from './SectionPage'
 import './Recaudado.css'
@@ -91,10 +92,50 @@ const buildSessions = () => {
 
 function Recaudado() {
   const [selectedSession, setSelectedSession] = useState(null)
+  const [sessionToDelete, setSessionToDelete] = useState(null)
+  const [, setDataVersion] = useState(0)
   const sessions = buildSessions()
   const totalRevenue = sessions.reduce((total, session) => total + session.total, 0)
   const totalSales = sessions.reduce((total, session) => total + session.sales.length, 0)
   const totalUnits = sessions.reduce((total, session) => total + session.units, 0)
+
+  const deleteSession = () => {
+    if (!sessionToDelete) return
+
+    const sales = readStorage(SALES_STORAGE_KEY, [])
+    const movements = readStorage(MOVEMENTS_STORAGE_KEY, [])
+    const currentRegister = readStorage(REGISTER_STORAGE_KEY, null)
+    const isSessionSale = (sale) =>
+      (sale.cashSessionId || sale.cashOpenedAt) === sessionToDelete.id
+    const isSessionMovement = (movement) =>
+      movement.cashSessionId === sessionToDelete.id ||
+      (!movement.cashSessionId &&
+        (movement.date === sessionToDelete.openedAt ||
+          movement.date === sessionToDelete.closedAt))
+
+    localStorage.setItem(
+      SALES_STORAGE_KEY,
+      JSON.stringify(sales.filter((sale) => !isSessionSale(sale))),
+    )
+    localStorage.setItem(
+      MOVEMENTS_STORAGE_KEY,
+      JSON.stringify(movements.filter((movement) => !isSessionMovement(movement))),
+    )
+
+    if (
+      currentRegister &&
+      (currentRegister.sessionId || currentRegister.openedAt) === sessionToDelete.id
+    ) {
+      localStorage.setItem(
+        REGISTER_STORAGE_KEY,
+        JSON.stringify({ isOpen: false, openedAt: null, closedAt: null }),
+      )
+    }
+
+    setSessionToDelete(null)
+    setSelectedSession(null)
+    setDataVersion((version) => version + 1)
+  }
 
   return (
     <SectionPage
@@ -124,9 +165,9 @@ function Recaudado() {
       ) : (
         <div className="cash-sessions">
           {sessions.map((session) => (
+            <div className="cash-session-row" key={session.id}>
             <button
               className="cash-session"
-              key={session.id}
               type="button"
               onClick={() => setSelectedSession(session)}
               aria-label={`Ver detalle de la recaudación del ${dateFormatter.format(new Date(session.openedAt))}`}
@@ -156,6 +197,16 @@ function Recaudado() {
               </span>
               <span className="cash-session__arrow" aria-hidden="true">→</span>
             </button>
+              <button
+                className="cash-session__delete"
+                type="button"
+                onClick={() => setSessionToDelete(session)}
+                aria-label={`Eliminar registro del ${dateFormatter.format(new Date(session.openedAt))}`}
+                title="Eliminar registro"
+              >
+                ×
+              </button>
+            </div>
           ))}
         </div>
       )}
@@ -164,6 +215,14 @@ function Recaudado() {
         <RevenueDetailModal
           session={selectedSession}
           onClose={() => setSelectedSession(null)}
+        />
+      )}
+
+      {sessionToDelete && (
+        <DeleteHistoryModal
+          session={sessionToDelete}
+          onCancel={() => setSessionToDelete(null)}
+          onConfirm={deleteSession}
         />
       )}
     </SectionPage>

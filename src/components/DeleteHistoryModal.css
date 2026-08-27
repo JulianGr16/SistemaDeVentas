@@ -1,0 +1,20 @@
+.delete-history-backdrop { position: fixed; z-index: 130; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(6, 10, 18, .82); backdrop-filter: blur(5px); }
+.delete-history-modal { width: min(100%, 440px); padding: 28px; text-align: center; background: #1a2332; border: 1px solid #593b43; border-radius: 18px; box-shadow: 0 24px 70px rgba(0, 0, 0, .5); }
+.delete-history-modal__icon { display: grid; place-items: center; width: 48px; height: 48px; margin: 0 auto 16px; color: #e7b9b9; font-size: 1.3rem; font-weight: 850; background: #492e33; border: 1px solid #684149; border-radius: 50%; }
+.delete-history-modal h2 { margin: 0; color: #e5eaf2; font-size: 1.35rem; }
+.delete-history-modal > p { margin: 10px 0 22px; color: #96a4b7; font-size: .88rem; line-height: 1.5; }
+.delete-history-modal form { display: flex; flex-direction: column; gap: 9px; text-align: left; }
+.delete-history-modal label { color: #b8c4d3; font-size: .82rem; font-weight: 650; }
+.delete-password-input { position: relative; display: flex; align-items: center; }
+.delete-password-input input { width: 100%; height: 44px; padding: 0 48px 0 13px; color: #e2e8f0; background: #111a27; border: 1px solid #465166; border-radius: 9px; outline: none; }
+.delete-password-input input:focus { border-color: #98616c; box-shadow: 0 0 0 3px rgba(152, 97, 108, .16); }
+.delete-password-input button { position: absolute; right: 6px; display: grid; place-items: center; width: 34px; height: 34px; padding: 0; background: transparent; border: 0; border-radius: 7px; cursor: pointer; }
+.delete-password-input button:hover { background: #263448; }
+.delete-history-modal__error { margin: 1px 0 0; padding: 9px 11px; color: #e5abab; font-size: .8rem; background: rgba(127, 29, 29, .2); border: 1px solid rgba(190, 80, 80, .3); border-radius: 8px; }
+.delete-history-modal__actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px; }
+.delete-history-modal__actions button { min-height: 42px; padding: 0 16px; font-weight: 750; border-radius: 9px; cursor: pointer; }
+.delete-cancel { color: #b5c0cf; background: #222d3d; border: 1px solid #3a485d; }
+.delete-confirm { color: #f0d4d4; background: #59383f; border: 1px solid #764c55; }
+.delete-confirm:hover { background: #684149; }
+.delete-history-modal button:focus-visible { outline: 3px solid rgba(190, 100, 110, .32); outline-offset: 2px; }
+@media (max-width: 440px) { .delete-history-modal { padding: 23px; } .delete-history-modal__actions { flex-direction: column-reverse; } .delete-history-modal__actions button { width: 100%; } }
