@@ -21,14 +21,14 @@ function RevenueDetailModal({ session, onClose }) {
       >
         <header className="revenue-modal__header">
           <div>
-            <p>Detalle de recaudación</p>
+            <p>Detalle de caja</p>
             <h2 id="revenue-modal-title">
               {dateFormatter.format(new Date(session.openedAt))}
             </h2>
             <span>
-              Apertura {timeFormatter.format(new Date(session.openedAt))} · {' '}
+              Fecha y hora de apertura: {dateFormatter.format(new Date(session.openedAt))}, {timeFormatter.format(new Date(session.openedAt))} · {' '}
               {session.closedAt
-                ? `Cierre ${timeFormatter.format(new Date(session.closedAt))}`
+                ? `Cierre: ${dateFormatter.format(new Date(session.closedAt))}, ${timeFormatter.format(new Date(session.closedAt))}`
                 : 'Caja en curso'}
             </span>
           </div>
@@ -42,7 +42,7 @@ function RevenueDetailModal({ session, onClose }) {
         </div>
 
         <section className="revenue-modal__section">
-          <h3>Totales por producto</h3>
+          <h3>Productos más vendidos</h3>
           {session.products.length === 0 ? (
             <p className="revenue-modal__empty">No se vendieron productos en esta sesión.</p>
           ) : (
@@ -51,7 +51,7 @@ function RevenueDetailModal({ session, onClose }) {
                 <div key={product.name}>
                   <strong>{product.name}</strong>
                   <span>{product.quantity} unidades</span>
-                  <span>{currencyFormatter.format(product.total)}</span>
+                  <span>{currencyFormatter.format(product.total)} vendidos</span>
                 </div>
               ))}
             </div>

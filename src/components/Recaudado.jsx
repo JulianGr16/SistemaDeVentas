@@ -85,12 +85,14 @@ const buildSessions = () => {
       ...session,
       total,
       units,
-      products: [...products.values()].sort((a, b) => b.total - a.total),
+      products: [...products.values()].sort(
+        (a, b) => b.quantity - a.quantity || b.total - a.total,
+      ),
     }
   }).sort((a, b) => b.openedAt.localeCompare(a.openedAt))
 }
 
-function Recaudado() {
+function DetalleCajas() {
   const [selectedSession, setSelectedSession] = useState(null)
   const [sessionToDelete, setSessionToDelete] = useState(null)
   const [, setDataVersion] = useState(0)
@@ -140,27 +142,27 @@ function Recaudado() {
   return (
     <SectionPage
       eyebrow="Caja"
-      title="Recaudado"
-      description="Consultá los ingresos y el detalle de cada jornada."
-      icon="$"
-      color="green"
+      title="Detalle de cajas"
+      description="Revisá cuánto se vendió, qué productos salieron y los horarios de cada turno."
+      icon="DC"
+      color="violet"
     >
       <div className="revenue-summary">
-        <article><span>Total recaudado</span><strong>{currencyFormatter.format(totalRevenue)}</strong></article>
-        <article><span>Ventas facturadas</span><strong>{totalSales}</strong></article>
-        <article><span>Productos vendidos</span><strong>{totalUnits}</strong></article>
+        <article><span>Total vendido</span><strong>{currencyFormatter.format(totalRevenue)}</strong></article>
+        <article><span>Ventas registradas</span><strong>{totalSales}</strong></article>
+        <article><span>Unidades vendidas</span><strong>{totalUnits}</strong></article>
       </div>
 
       <div className="sessions-heading">
-        <div><h2>Sesiones de caja</h2><p>Resumen de ventas por cada apertura.</p></div>
+        <div><h2>Turnos de caja</h2><p>Ventas agrupadas por apertura y cierre.</p></div>
         <span>{sessions.length} sesiones</span>
       </div>
 
       {sessions.length === 0 ? (
         <div className="revenue-empty">
           <span aria-hidden="true">$</span>
-          <p>Todavía no hay recaudación registrada.</p>
-          <small>Las ventas facturadas aparecerán en esta sección.</small>
+          <p>Todavía no hay turnos con ventas registradas.</p>
+          <small>El detalle aparecerá aquí cuando se facture una venta.</small>
         </div>
       ) : (
         <div className="cash-sessions">
@@ -170,7 +172,7 @@ function Recaudado() {
               className="cash-session"
               type="button"
               onClick={() => setSelectedSession(session)}
-              aria-label={`Ver detalle de la recaudación del ${dateFormatter.format(new Date(session.openedAt))}`}
+                aria-label={`Ver detalle de caja del ${dateFormatter.format(new Date(session.openedAt))}`}
             >
               <span className={`cash-session__indicator ${session.closedAt ? 'cash-session__indicator--closed' : ''}`} aria-hidden="true">
                 {session.closedAt ? '✓' : '•'}
@@ -229,4 +231,4 @@ function Recaudado() {
   )
 }
 
-export default Recaudado
+export default DetalleCajas

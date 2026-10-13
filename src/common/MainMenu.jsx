@@ -19,6 +19,14 @@ const menuItems = [
     color: 'green',
   },
   {
+    id: 'detalle-cajas',
+    path: '/detalle-cajas',
+    title: 'Detalle de cajas',
+    description: 'Consultá ventas, productos y horarios de cada turno.',
+    icon: 'DC',
+    color: 'violet',
+  },
+  {
     id: 'movimientos',
     path: '/movimientos',
     title: 'Movimientos',

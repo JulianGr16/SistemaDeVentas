@@ -3,6 +3,7 @@ import MainMenu from './common/MainMenu'
 import EstadisticasVentas from './components/EstadisticasVentas'
 import NotaVenta from './components/NotaVenta'
 import Stock from './components/Stock'
+import DetalleCajas from './components/Recaudado'
 import Movimientos from './components/Movimientos'
 import './App.css'
 
@@ -28,7 +29,8 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/nota-venta" element={<NotaVenta />} />
       <Route path="/stock" element={<Stock />} />
-      <Route path="/recaudado" element={<Navigate to="/stock" replace />} />
+      <Route path="/detalle-cajas" element={<DetalleCajas />} />
+      <Route path="/recaudado" element={<Navigate to="/detalle-cajas" replace />} />
       <Route path="/movimientos" element={<Movimientos />} />
       <Route path="/estadisticas" element={<EstadisticasVentas />} />
       <Route path="*" element={<Navigate to="/" replace />} />
