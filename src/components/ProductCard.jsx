@@ -6,22 +6,14 @@ const currencyFormatter = new Intl.NumberFormat('es-AR', {
   maximumFractionDigits: 0,
 })
 
-function ProductCard({ product, onAdd, onEdit }) {
+function ProductCard({ product, onAdd }) {
   const hasPrice = product.price > 0
+  const hasStock = product.quantity > 0
 
   return (
     <article
       className="product-card"
     >
-      <button
-        className="product-card__edit"
-        type="button"
-        onClick={() => onEdit(product)}
-        aria-label={`Modificar precio de ${product.name}`}
-        title="Modificar precio"
-      >
-        ✎
-      </button>
       <span className="product-card__icon" aria-hidden="true">
         {product.icon}
       </span>
@@ -29,14 +21,17 @@ function ProductCard({ product, onAdd, onEdit }) {
       <strong className={!hasPrice ? 'product-card__pending-price' : ''}>
         {hasPrice ? currencyFormatter.format(product.price) : 'Precio pendiente'}
       </strong>
+      <span className="product-card__stock">
+        {product.quantity} {product.quantity === 1 ? 'unidad' : 'unidades'} disponibles
+      </span>
       <button
         className="product-card__action"
         type="button"
         onClick={() => onAdd(product)}
-        disabled={!hasPrice}
+        disabled={!hasPrice || !hasStock}
         aria-label={`Agregar ${product.name} al carrito`}
       >
-        {hasPrice ? '+ Agregar' : 'Definir precio para agregar'}
+        {!hasPrice ? 'Precio pendiente' : hasStock ? '+ Agregar' : 'Sin stock'}
       </button>
     </article>
   )

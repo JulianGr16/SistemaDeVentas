@@ -20,29 +20,6 @@
   border-color: #52647e;
 }
 
-.product-card__edit {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  color: #9fb8dd;
-  font-size: 1.1rem;
-  background: #263b59;
-  border: 1px solid #354d6e;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.product-card__edit:hover {
-  color: #e1eaf6;
-  background: #324b6e;
-}
-
-.product-card__edit:focus-visible,
 .product-card__action:focus-visible {
   outline: 3px solid rgba(125, 157, 204, 0.45);
   outline-offset: 2px;
@@ -73,6 +50,12 @@
 .product-card .product-card__pending-price {
   color: #c2a77f;
   font-size: 0.84rem;
+}
+
+.product-card__stock {
+  margin-top: 5px;
+  color: #8d9bad;
+  font-size: 0.78rem;
 }
 
 .product-card__action {

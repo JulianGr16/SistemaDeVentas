@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import MainMenu from './common/MainMenu'
 import EstadisticasVentas from './components/EstadisticasVentas'
 import NotaVenta from './components/NotaVenta'
-import Recaudado from './components/Recaudado'
+import Stock from './components/Stock'
 import Movimientos from './components/Movimientos'
 import './App.css'
 
@@ -11,7 +11,7 @@ function Home() {
     <main className="app-shell">
       <header className="app-header">
         <div>
-          <p className="eyebrow">Puesto de feria</p>
+          <p className="eyebrow">Tienda de electrónica</p>
           <h1>Sistema de ventas</h1>
           <p className="welcome">Seleccioná una opción para comenzar.</p>
         </div>
@@ -27,7 +27,8 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/nota-venta" element={<NotaVenta />} />
-      <Route path="/recaudado" element={<Recaudado />} />
+      <Route path="/stock" element={<Stock />} />
+      <Route path="/recaudado" element={<Navigate to="/stock" replace />} />
       <Route path="/movimientos" element={<Movimientos />} />
       <Route path="/estadisticas" element={<EstadisticasVentas />} />
       <Route path="*" element={<Navigate to="/" replace />} />

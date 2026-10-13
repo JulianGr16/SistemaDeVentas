@@ -11,11 +11,11 @@ const menuItems = [
     color: 'blue',
   },
   {
-    id: 'recaudado',
-    path: '/recaudado',
-    title: 'Recaudado',
-    description: 'Consultá los ingresos y el total de la jornada.',
-    icon: '$',
+    id: 'stock',
+    path: '/stock',
+    title: 'Stock',
+    description: 'Administrá productos, cantidades y precios.',
+    icon: 'ST',
     color: 'green',
   },
   {
