@@ -8,7 +8,9 @@ export const productCategories = [
   { id: 'audio', name: 'Audio', shortName: 'Audio' },
   { id: 'accesorios', name: 'Accesorios', shortName: 'Accesorios' },
   { id: 'videojuegos', name: 'Videojuegos', shortName: 'Gaming' },
-  { id: 'smart-home', name: 'Hogar inteligente', shortName: 'Smart home' },
+  { id: 'belleza', name: 'Artículos de belleza', shortName: 'Belleza' },
+  { id: 'bazar', name: 'Bazar', shortName: 'Bazar' },
+  { id: 'articulos-hogar', name: 'Artículos del hogar', shortName: 'Hogar' },
 ]
 
 export const defaultProducts = [
@@ -32,16 +34,23 @@ export const defaultProducts = [
   { id: 'control-videojuegos', category: 'videojuegos', name: 'Control inalámbrico', price: 0, quantity: 0, icon: '🎮' },
   { id: 'juego-consola', category: 'videojuegos', name: 'Videojuego', price: 0, quantity: 0, icon: '🕹️' },
   { id: 'silla-gamer', category: 'videojuegos', name: 'Silla gamer', price: 0, quantity: 0, icon: '🪑' },
-  { id: 'smartwatch', category: 'smart-home', name: 'Smartwatch', price: 0, quantity: 0, icon: '⌚' },
-  { id: 'camara-seguridad', category: 'smart-home', name: 'Cámara de seguridad Wi-Fi', price: 0, quantity: 0, icon: '📹' },
-  { id: 'foco-inteligente', category: 'smart-home', name: 'Foco inteligente', price: 0, quantity: 0, icon: '💡' },
-  { id: 'enchufe-inteligente', category: 'smart-home', name: 'Enchufe inteligente', price: 0, quantity: 0, icon: '🔌' },
+  { id: 'smartwatch', category: 'articulos-hogar', name: 'Smartwatch', price: 0, quantity: 0, icon: '⌚' },
+  { id: 'camara-seguridad', category: 'articulos-hogar', name: 'Cámara de seguridad Wi-Fi', price: 0, quantity: 0, icon: '📹' },
+  { id: 'foco-inteligente', category: 'articulos-hogar', name: 'Foco inteligente', price: 0, quantity: 0, icon: '💡' },
+  { id: 'enchufe-inteligente', category: 'articulos-hogar', name: 'Enchufe inteligente', price: 0, quantity: 0, icon: '🔌' },
 ]
 
 export function getSavedProducts() {
   try {
     const savedProducts = JSON.parse(localStorage.getItem(PRODUCTS_STORAGE_KEY))
-    if (Array.isArray(savedProducts)) return savedProducts
+    if (Array.isArray(savedProducts)) {
+      return savedProducts.map((product) => ({
+        ...product,
+        category: product.category === 'smart-home'
+          ? 'articulos-hogar'
+          : product.category,
+      }))
+    }
 
     const savedPrices = JSON.parse(
       localStorage.getItem(LEGACY_PRICES_STORAGE_KEY) || '{}',

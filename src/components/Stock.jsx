@@ -16,7 +16,9 @@ const categoryIcons = {
   audio: '🎧',
   accesorios: '🔌',
   videojuegos: '🎮',
-  'smart-home': '💡',
+  belleza: '💄',
+  bazar: '🏠',
+  'articulos-hogar': '🏠',
 }
 
 const currencyFormatter = new Intl.NumberFormat('es-AR', {
