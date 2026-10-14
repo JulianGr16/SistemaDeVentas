@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import ProductCategoryMenu from '../common/ProductCategoryMenu'
 import CashRegister from './CashRegister'
 import Cart from './Cart'
@@ -28,10 +28,13 @@ function NotaVenta() {
   const [selectedCategory, setSelectedCategory] = useState(productCategories[0])
   const [cart, setCart] = useState([])
   const [register, setRegister] = useState(getSavedRegister)
+  const [scannerInput, setScannerInput] = useState('')
   const [showClosedRegisterNotice, setShowClosedRegisterNotice] = useState(false)
   const [stockNotice, setStockNotice] = useState('')
+  const [barcodeNotice, setBarcodeNotice] = useState(null)
   const [showInvoiceConfirmation, setShowInvoiceConfirmation] = useState(false)
   const [showInvoiceSuccess, setShowInvoiceSuccess] = useState(false)
+  const scannerInputRef = useRef(null)
   const visibleProducts = products.filter(
     (product) => product.category === selectedCategory.id,
   )
@@ -110,6 +113,34 @@ function NotaVenta() {
 
       return [...currentCart, { ...product, quantity: 1 }]
     })
+  }
+
+  const scanProduct = (event) => {
+    event.preventDefault()
+    const barcode = scannerInput.trim()
+    if (!barcode) return
+
+    setScannerInput('')
+    const product = products.find((item) => item.barcode?.trim() === barcode)
+
+    if (!product) {
+      setBarcodeNotice({
+        title: 'Código no encontrado',
+        message: `No hay un producto registrado con el código ${barcode}.`,
+      })
+      return
+    }
+
+    if (product.price <= 0) {
+      setBarcodeNotice({
+        title: 'Precio pendiente',
+        message: `Definí el precio de ${product.name} desde Stock antes de facturarlo.`,
+      })
+      return
+    }
+
+    addToCart(product)
+    scannerInputRef.current?.focus()
   }
 
   const updateQuantity = (productId, amount) => {
@@ -221,6 +252,23 @@ function NotaVenta() {
           onClose={closeRegister}
         />
 
+        <form className="barcode-scanner" onSubmit={scanProduct}>
+          <label htmlFor="barcode-scanner-input">Código de barras</label>
+          <div className="barcode-scanner__controls">
+            <input
+              ref={scannerInputRef}
+              id="barcode-scanner-input"
+              type="text"
+              autoComplete="off"
+              autoFocus
+              value={scannerInput}
+              onChange={(event) => setScannerInput(event.target.value)}
+              placeholder="Escaneá el producto y presioná Enter"
+            />
+            <button type="submit">Agregar</button>
+          </div>
+        </form>
+
         <ProductCategoryMenu
           categories={productCategories}
           selectedCategory={selectedCategory}
@@ -264,7 +312,10 @@ function NotaVenta() {
           <NoticeModal
             title="La caja está cerrada"
             message="Para cargar productos al carrito, primero tenés que abrir la caja."
-            onClose={() => setShowClosedRegisterNotice(false)}
+            onClose={() => {
+              setShowClosedRegisterNotice(false)
+              scannerInputRef.current?.focus()
+            }}
           />
         )}
 
@@ -272,7 +323,21 @@ function NotaVenta() {
           <NoticeModal
             title="Stock insuficiente"
             message={stockNotice}
-            onClose={() => setStockNotice('')}
+            onClose={() => {
+              setStockNotice('')
+              scannerInputRef.current?.focus()
+            }}
+          />
+        )}
+
+        {barcodeNotice && (
+          <NoticeModal
+            title={barcodeNotice.title}
+            message={barcodeNotice.message}
+            onClose={() => {
+              setBarcodeNotice(null)
+              scannerInputRef.current?.focus()
+            }}
           />
         )}
 

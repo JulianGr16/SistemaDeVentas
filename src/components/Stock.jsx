@@ -30,6 +30,7 @@ const currencyFormatter = new Intl.NumberFormat('es-AR', {
 const emptyForm = {
   name: '',
   category: productCategories[0].id,
+  barcode: '',
   price: '',
   quantity: '',
 }
@@ -39,6 +40,7 @@ function Stock() {
   const [selectedCategory, setSelectedCategory] = useState(allCategories[0])
   const [form, setForm] = useState(emptyForm)
   const [editingId, setEditingId] = useState(null)
+  const [barcodeError, setBarcodeError] = useState('')
   const [productToDelete, setProductToDelete] = useState(null)
   const visibleProducts = products.filter(
     (product) => selectedCategory.id === 'all' || product.category === selectedCategory.id,
@@ -64,6 +66,7 @@ function Stock() {
     const productData = {
       name: form.name.trim(),
       category: form.category,
+      barcode: form.barcode.trim(),
       price: Number(form.price),
       quantity: Number(form.quantity),
     }
@@ -71,6 +74,16 @@ function Stock() {
     if (!productData.name || !Number.isFinite(productData.price) ||
       !Number.isFinite(productData.quantity) || productData.price < 0 ||
       productData.quantity < 0 || !Number.isInteger(productData.quantity)) return
+
+    const duplicateBarcode = products.some((product) => (
+      productData.barcode &&
+      product.barcode?.trim() === productData.barcode &&
+      product.id !== editingId
+    ))
+    if (duplicateBarcode) {
+      setBarcodeError('Ese código de barras ya está asignado a otro producto.')
+      return
+    }
 
     if (editingId) {
       updateProducts(products.map((product) => (
@@ -90,9 +103,11 @@ function Stock() {
 
   const startEditing = (product) => {
     setEditingId(product.id)
+    setBarcodeError('')
     setForm({
       name: product.name,
       category: product.category,
+      barcode: product.barcode || '',
       price: String(product.price),
       quantity: String(product.quantity),
     })
@@ -148,6 +163,21 @@ function Stock() {
                 <option key={category.id} value={category.id}>{category.name}</option>
               ))}
             </select>
+          </label>
+          <label>
+            Código de barras
+            <input
+              type="text"
+              value={form.barcode}
+              onChange={(event) => {
+                setForm({ ...form, barcode: event.target.value })
+                setBarcodeError('')
+              }}
+              placeholder="Opcional"
+              maxLength={80}
+              autoComplete="off"
+            />
+            {barcodeError && <span className="stock-form__error" role="alert">{barcodeError}</span>}
           </label>
           <label>
             Precio (ARS)
@@ -215,7 +245,10 @@ function Stock() {
               <article className="stock-table" key={product.id}>
                 <div className="stock-product-name">
                   <span aria-hidden="true">{product.icon}</span>
-                  <strong>{product.name}</strong>
+                  <div className="stock-product-meta">
+                    <strong>{product.name}</strong>
+                    {product.barcode && <small>Cód. {product.barcode}</small>}
+                  </div>
                 </div>
                 <span className="stock-category">
                   {productCategories.find((category) => category.id === product.category)?.name || 'Sin categoría'}

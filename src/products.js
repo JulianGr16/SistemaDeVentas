@@ -46,6 +46,7 @@ export function getSavedProducts() {
     if (Array.isArray(savedProducts)) {
       return savedProducts.map((product) => ({
         ...product,
+        barcode: product.barcode || '',
         category: product.category === 'smart-home'
           ? 'articulos-hogar'
           : product.category,

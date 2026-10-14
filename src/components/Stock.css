@@ -34,12 +34,13 @@
 
 .stock-form {
   display: grid;
-  grid-template-columns: minmax(180px, 2fr) minmax(150px, 1.2fr) minmax(120px, .8fr) minmax(110px, .7fr) auto;
+  grid-template-columns: minmax(160px, 1.7fr) minmax(130px, 1fr) minmax(130px, 1fr) minmax(110px, .75fr) minmax(100px, .7fr) auto;
   gap: 12px;
   align-items: end;
 }
 
 .stock-form label { display: flex; min-width: 0; flex-direction: column; gap: 7px; color: #aebaca; font-size: .78rem; font-weight: 700; }
+.stock-form__error { color: #e5abab; font-size: .72rem; font-weight: 600; }
 .stock-form input, .stock-form select {
   width: 100%;
   min-width: 0;
@@ -75,7 +76,9 @@
 .stock-table-body .stock-table { min-height: 68px; color: #cbd5e1; background: #151e2b; border-top: 1px solid #293547; }
 .stock-product-name { display: flex; min-width: 0; gap: 10px; align-items: center; }
 .stock-product-name > span { flex: 0 0 auto; font-size: 1.25rem; }
-.stock-product-name strong { overflow: hidden; color: #e1e7f0; font-size: .88rem; text-overflow: ellipsis; }
+.stock-product-meta { display: flex; min-width: 0; flex-direction: column; gap: 4px; }
+.stock-product-meta strong { overflow: hidden; color: #e1e7f0; font-size: .88rem; text-overflow: ellipsis; }
+.stock-product-meta small { overflow: hidden; color: #8291a5; font-size: .7rem; text-overflow: ellipsis; }
 .stock-category { color: #9ba9ba; font-size: .82rem; }
 .stock-quantity, .stock-price { font-size: .84rem; }
 .stock-quantity--empty { color: #d7a57c; }
