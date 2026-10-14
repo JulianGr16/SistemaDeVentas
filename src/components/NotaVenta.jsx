@@ -34,6 +34,7 @@ function NotaVenta() {
   const [barcodeNotice, setBarcodeNotice] = useState(null)
   const [showInvoiceConfirmation, setShowInvoiceConfirmation] = useState(false)
   const [showInvoiceSuccess, setShowInvoiceSuccess] = useState(false)
+  const [showClearCartConfirmation, setShowClearCartConfirmation] = useState(false)
   const scannerInputRef = useRef(null)
   const visibleProducts = products.filter(
     (product) => product.category === selectedCategory.id,
@@ -303,7 +304,7 @@ function NotaVenta() {
           items={cart}
           onUpdateQuantity={updateQuantity}
           onRemove={removeFromCart}
-          onClear={() => setCart([])}
+          onClear={() => setShowClearCartConfirmation(true)}
           onInvoice={() => setShowInvoiceConfirmation(true)}
           canInvoice={register.isOpen}
         />
@@ -348,6 +349,20 @@ function NotaVenta() {
             confirmText="Sí, facturar"
             onCancel={() => setShowInvoiceConfirmation(false)}
             onConfirm={invoiceSale}
+          />
+        )}
+
+        {showClearCartConfirmation && (
+          <ConfirmModal
+            title="¿Vaciar el carrito?"
+            message="Se eliminarán todos los productos cargados en esta venta."
+            confirmText="Sí, vaciar carrito"
+            onCancel={() => setShowClearCartConfirmation(false)}
+            onConfirm={() => {
+              setCart([])
+              setShowClearCartConfirmation(false)
+              scannerInputRef.current?.focus()
+            }}
           />
         )}
 

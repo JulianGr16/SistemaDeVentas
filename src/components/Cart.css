@@ -27,8 +27,25 @@
   cursor: pointer;
 }
 
-.cart__clear { font-size: 0.82rem; }
-.cart__clear:hover, .cart-item__remove:hover { color: #e0a2a2; }
+.cart__clear {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 13px;
+  color: #f0b5b8;
+  font-size: 0.82rem;
+  font-weight: 750;
+  background: #38252c;
+  border: 1px solid #70434d;
+  border-radius: 8px;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.cart__clear:hover { color: #ffe3e4; background: #56313a; border-color: #a65a67; }
+.cart__clear:focus-visible { outline: 3px solid rgba(228, 133, 145, .38); outline-offset: 2px; }
+.cart-item__remove:hover { color: #e0a2a2; }
 
 .cart__empty {
   display: flex;
